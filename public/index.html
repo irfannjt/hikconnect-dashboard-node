@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HikConnect Dashboard (Node.js)</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>📡 HikConnect Device Dashboard</h2>
+  <table id="deviceTable">
+    <thead>
+      <tr>
+        <th>Alias</th>
+        <th>Domain</th>
+        <th>Serial</th>
+        <th>IP/Port</th>
+        <th>Status</th>
+        <th>Operation</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    async function loadDevices() {
+      const res = await fetch('/api/devices');
+      const devices = await res.json();
+      const tbody = document.querySelector("#deviceTable tbody");
+      tbody.innerHTML = "";
+      devices.forEach(d => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${d.alias}</td>
+          <td>${d.device_domain}</td>
+          <td>${d.device_serial}</td>
+          <td>${d.ip_port}</td>
+          <td>
+            <span class="pill ${d.status === 'Online' ? 'pill-online' : 'pill-offline'}">${d.status}</span>
+          </td>
+          <td>
+            <button onclick="toggleStatus(${d.id}, '${d.status}')">🔄 Toggle</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    async function toggleStatus(id, currStatus) {
+      const newStatus = currStatus === "Online" ? "Offline" : "Online";
+      const res = await fetch('/api/devices/update', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status: newStatus })
+      });
+      const result = await res.json();
+      if (result.success) {
+        loadDevices();
+      } else {
+        alert("Update gagal");
+      }
+    }
+
+    loadDevices();
+  </script>
+</body>
+</html>
