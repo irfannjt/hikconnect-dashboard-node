@@ -1,46 +1,20 @@
-# 📡 HikConnect Dashboard (Node.js + MySQL)
+# HikConnect Dashboard - Puppeteer + Cron + Socket.IO (POC)
+This project is a proof-of-concept Node.js dashboard that scrapes HiConnect Web Portal using Puppeteer, updates device status via a cron job, and broadcasts realtime updates to clients using Socket.IO.
 
-Dashboard sederhana untuk monitoring status perangkat CCTV (HiConnect) berbasis **Node.js + Express + MySQL**.
+## Important notes
+- This POC uses a headless browser to login & scrape data from HiConnect Web. This is fragile and may break if Hikvision changes their site.
+- For production / stable integration, prefer official Hikvision developer APIs.
+- You must provide valid HiConnect credentials via environment variables: HICONNECT_USER and HICONNECT_PASS.
 
-## 🚀 Fitur
-- Menampilkan daftar device CCTV
-- Menandai status **Online / Offline**
-- Toggle status perangkat langsung dari dashboard
-- API endpoint untuk integrasi
+## Quick start
+1. Extract ZIP and `cd` into project folder.
+2. Copy `.env.example` to `.env` and edit DB and HiConnect credentials.
+3. Install dependencies: `npm install`
+4. Import `devices.sql` into MySQL (`hikconnect_db`).
+5. Run: `npm run dev`
+6. Open: http://localhost:3000
 
-## 📂 Struktur Project
-```
-hikconnect-dashboard-node/
-│── package.json
-│── server.js
-│── db.js
-│── routes/devices.js
-│── public/
-│   ├── index.html
-│   └── style.css
-│── devices.sql
-```
-
-## ⚙️ Instalasi di Localhost
-1. Clone repo / extract ZIP
-2. Install dependency:
-   ```bash
-   npm install
-   ```
-3. Buat database MySQL `hikconnect_db`
-4. Import `devices.sql` ke MySQL
-5. Jalankan server:
-   ```bash
-   npm run dev
-   ```
-6. Akses di browser:
-   ```
-   http://localhost:3000
-   ```
-
-## 🌍 Deploy ke Public
-- Bisa deploy ke **Heroku, Render, Railway, atau VPS**
-- Pastikan buat MySQL database dan update konfigurasi di `db.js`
-
----
-👨‍💻 Dibuat untuk memudahkan monitoring CCTV berbasis web.
+## .env variables
+- DB_HOST, DB_USER, DB_PASS, DB_NAME
+- HICONNECT_USER, HICONNECT_PASS
+- PORT (optional)

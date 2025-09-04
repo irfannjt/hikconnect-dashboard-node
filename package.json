@@ -1,7 +1,7 @@
 {
-  "name": "hikconnect-dashboard",
+  "name": "hikconnect-dashboard-puppeteer",
   "version": "1.0.0",
-  "description": "HikConnect Device Dashboard in Node.js + MySQL",
+  "description": "HikConnect Dashboard Node.js with Puppeteer scraping, cron and socket.io",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -11,7 +11,11 @@
     "express": "^4.18.2",
     "mysql2": "^3.6.0",
     "body-parser": "^1.20.2",
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "node-cron": "^3.0.2",
+    "socket.io": "^4.7.2",
+    "puppeteer": "^21.3.8",
+    "dotenv": "^16.3.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.3"
